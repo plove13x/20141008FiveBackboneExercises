@@ -1,0 +1,84 @@
+
+
+var Book = Backbone.Model.extend {(
+	idAttribute: '_id',
+)}
+
+
+var createBookView... = Backbone.View.extend {(
+
+events: {
+	'submit form': 'createBook'	
+},
+
+createBook: function (event) {
+	event.preventDefault();
+	var data = this.$el.serializeObject();
+	this.$('input, textarea').val('');
+	this.collection.create(data);			/* WHAT'S GOING ON IN THIS LINE */
+	console.log(data);
+}
+
+)}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var BooksListView = Backbone.View.extend({
+	template: _.template( $()),
+	render:,
+	renderChildren: function() {
+
+	},
+});
+
+
+
+
+
+
+
+
+var AppRouter = Backbone.Router.extend ({
+
+	routes: {
+		'books/:id': 'showBook'
+	},
+
+	initialize: function {
+		this.collection = new Books ();
+		newCreateBookView({collection: this.collection});
+		new BooksListView({
+			collection: this.collection,
+			$container: $('.sidebar')
+		});
+	}
+
+	showBook: function (id) {
+		var book = this.collection.get(id);
+		new BookDetailView({
+			model: book,
+			$container: $('.content')
+		});
+	}
+
+});
+
+(include new collection so u can pass it around)
+
+
+
+
+
+
+
