@@ -91,3 +91,9 @@ body {
         border-bottom: 0;
     }
 }
+
+
+.invalid input[type=text],
+.invalid input[type=email] {
+  outline: red 1px solid;
+}

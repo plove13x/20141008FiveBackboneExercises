@@ -16,7 +16,24 @@ App.Models.Person = Backbone.Model.extend ({
 		firstName: ''
 	},
 
-	idAttribute: '_id'
+	idAttribute: '_id',
+
+	validate: function(attributes){
+      if(! attributes.firstName){
+        return "First name is required.";
+      }
+      if(! attributes.lastName){
+        return "Last name is required.";
+      }
+      if(! attributes.address || !attributes.address.match(' ')){
+        return "Address is required.";
+      }
+      if(! attributes.phoneNumber || !attributes.phoneNumber.match('1')){
+        return "Phone number is required.";
+      }
+    },
+
+    url: 'http://tiny-pizza-server.herokuapp.com/collections/people'
 });
 
 
@@ -37,6 +54,7 @@ App.Views.NewPersonForm = Backbone.View.extend ({
 		});
 	options.$container.append(this.el);
 	this.render();
+	this.listenTo(this.model, 'invalid', this.invalidUser);
 	},
 
 	tagName: 'form',
@@ -51,14 +69,28 @@ App.Views.NewPersonForm = Backbone.View.extend ({
 
 	makeNewPerson: function(event) {
 		event.preventDefault();
-		var postData = {
-			firstName: $('#firstName').val(),
-			lastName: $('#lastName').val(),
-			address: $('#address').val(),
-			phoneNumber: $('#phoneNumber').val()
-		};
+		
+		var postData = this.$el.serializeObject();
+		// OR instead of entire line above:
+		// var	firstName = $('#firstName').val();
+		// var lastName = $('#lastName').val();
+		// var address = $('#address').val();
+		// var phoneNumber = $('#phoneNumber').val();
+
 		this.collection.create(postData);
-	}
+		// OR instead of postData above:
+		// {firstName: firstName, lastName: lastName, address: address, phoneNumber: phoneNumber}
+		
+		console.log(this.model);
+		this.$('input[type=text]').val('');
+		
+	},
+
+	invalidUser: function(model, error){
+      this.$('form').addClass('invalid');
+      alert(error);
+    },
+
 });
 
 // ROUTERS
@@ -66,9 +98,10 @@ App.Views.NewPersonForm = Backbone.View.extend ({
 App.Routers.BRouter = Backbone.Router.extend ({
 	initialize: function() {
 		new App.Views.NewPersonForm({
+			model: new App.Models.Person(),
 			collection: new App.Collections.People(),
 		});
-	}
+	},
 });
 
 
@@ -83,3 +116,11 @@ $(document).ready(function() {
 
 
 })();
+
+
+$.fn.serializeObject = function(){
+	return this.serializeArray().reduce(function(acum, i){
+		acum[i.name] = i.value;
+		return acum;
+	}, {});
+};
