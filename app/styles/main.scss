@@ -97,3 +97,14 @@ body {
 .invalid input[type=email] {
   outline: red 1px solid;
 }
+
+.sidebar {
+    display: inline-block;
+    width: 25%;
+}
+
+.mainContent {
+    display: inline-block;
+    width: 70%;
+    vertical-align: top;
+}

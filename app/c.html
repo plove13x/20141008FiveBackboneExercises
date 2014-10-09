@@ -25,8 +25,23 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <div class="container">
+        <div class="sidebar">
         </div>
+        <div class="mainContent">
+        </div>
+
+        <script type="text/template" id="postList">
+            <p>My Posts</p>
+        </script>
+
+        <script type="text/template" id="listItem">
+            <a href="#/posts/<%= _id %>"><%= title %></a>
+        </script>
+
+        <script type="text/template" id="selectedPostView">
+            <h3><%= this.model.get('title') %></h3>
+            <p><%= this.model.get('body') %></p>
+        </script>
 
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->

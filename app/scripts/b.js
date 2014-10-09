@@ -71,22 +71,21 @@ App.Views.NewPersonForm = Backbone.View.extend ({
 		event.preventDefault();
 		
 		var postData = this.$el.serializeObject();
-		// OR instead of entire line above:
-		// var	firstName = $('#firstName').val();
+		// OR instead of line above:
+		// varfirstName = $('#firstName').val();
 		// var lastName = $('#lastName').val();
 		// var address = $('#address').val();
 		// var phoneNumber = $('#phoneNumber').val();
 
-		this.collection.create(postData);
-		// OR instead of postData above:
+		this.model.save(postData);
+		// OR substitute for postData above:
 		// {firstName: firstName, lastName: lastName, address: address, phoneNumber: phoneNumber}
-		
+
 		console.log(this.model);
-		this.$('input[type=text]').val('');
-		
+		// this.$('input[type=text]').val('');
 	},
 
-	invalidUser: function(model, error){
+	invalidUser: function(model, error){			/* Alert is working but incorrect fields are not turning red... */
       this.$('form').addClass('invalid');
       alert(error);
     },
